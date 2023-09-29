@@ -34,7 +34,7 @@ namespace TP0_SACCHETTO_Vladimir
             do
             {
                 Console.WriteLine("----------------------------");
-                Console.WriteLine("Quelle est ta taille en cm? ");
+                Console.WriteLine("Quelle est ta taille en cm ? ");
                 Console.WriteLine("----------------------------");
                 Console.WriteLine();
                 string input = Console.ReadLine();
@@ -50,7 +50,7 @@ namespace TP0_SACCHETTO_Vladimir
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Erreur : Entres une taille valide (j'accepte les décimaux).");
+                    Console.WriteLine("Erreur : Entre une taille valide (j'accepte les décimaux).");
                     Console.WriteLine();
                 }
 
@@ -86,7 +86,7 @@ namespace TP0_SACCHETTO_Vladimir
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Erreur : Entres un poids valide (j'accepte les décimaux).");
+                    Console.WriteLine("Erreur : Entre un poids valide (j'accepte les décimaux).");
                     Console.WriteLine();
                 }
 
@@ -121,7 +121,7 @@ namespace TP0_SACCHETTO_Vladimir
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Erreur : Entres un vrai âge.");
+                    Console.WriteLine("Erreur : Entre un vrai âge.");
                     Console.WriteLine();
                 }
             } while (!isValidAge || age <= 0);
@@ -175,11 +175,11 @@ namespace TP0_SACCHETTO_Vladimir
                 }
                 else
                 {
-                    Console.WriteLine("\nErreur : Veuillez entrer un nombre valide (entre 100 000 et 150 000).");
+                    Console.WriteLine("\nErreur : Veuille entrer un nombre valide stp (entre 100 000 et 150 000).");
                     Console.WriteLine();
                 }
 
-            } while (!isValidEstimate || estimate <= 100000 && estimate >= 150000);
+            } while (!isValidEstimate || estimate <= 100000 || estimate >= 150000);
 
             Console.WriteLine("Merci pour ton estimation. Rassure toi, tu as encore des cheveux !");
             Console.ReadLine();
@@ -249,22 +249,18 @@ namespace TP0_SACCHETTO_Vladimir
                 switch (choise)
                 {
                     case "1" :
-                        Console.WriteLine();
-                        Console.WriteLine("Tu as choisi de quitter mon programme. Au revoir !");
+                        Console.WriteLine("\nTu as choisi de quitter mon programme. Au revoir !");
                         sleepProgram = true;
                         Sleep();
                         break;
                     case "2" :
-                        Console.WriteLine();
-                        Console.WriteLine("Tu as choisi de recommencer le programme. C'est reparti !");
-                        Console.WriteLine("****************************************************************************************");
-                        Console.WriteLine();
+                        Console.WriteLine("\nTu as choisi de recommencer le programme. C'est reparti !");
+                        Console.WriteLine("****************************************************************************************\n");
                         Thread.Sleep(1000);
                         RunProgram();
                         break;
                     case "3" :
-                        Console.WriteLine();
-                        Console.WriteLine("Tu as choisi de compter jusqu'à 10. C'est parti !");
+                        Console.WriteLine("\nTu as choisi de compter jusqu'à 10. C'est parti !");
                         for (int i = 1; i <= 10; i++)
                         {
                             Console.WriteLine(i);
@@ -275,11 +271,10 @@ namespace TP0_SACCHETTO_Vladimir
                         Sleep();
                         break;
                     case "4" :
-                        Console.WriteLine();
-                        Console.WriteLine("Tu as choisi de téléphoner à Tata Jacqueline. C'est parti !");
+                        Console.WriteLine("\nTu as choisi de téléphoner à Tata Jacqueline. C'est parti !");
                         Console.WriteLine();
                         Thread.Sleep(1000);
-                        Console.WriteLine("Messagerie de Tata Jacqueline : Bonjour je suis actuellement absente mais en général je n'aime pas que les gens me parlent alors ne m'appelle plus jamais !!!! ");
+                        Console.WriteLine("Messagerie de Tata Jacqueline : Bonjour, je suis actuellement absente, mais en général je n'aime pas que les gens me parlent alors ne m'appelle plus jamais !!!! ");
                         Thread.Sleep(5000);
                         sleepProgram = true;
                         Sleep();
@@ -302,7 +297,7 @@ namespace TP0_SACCHETTO_Vladimir
         public static void RunProgram()
         {
             // Welcome message
-            Console.WriteLine("Bienvenue sur mon programme, jeune étranger imberbe. Presse entrer pour y rentrer ...");
+            Console.WriteLine("Bienvenue sur mon programme, jeune étranger imberbe. Presse la touche entrer pour y rentrer ...");
             Console.ReadLine();
 
             string surname;
@@ -320,7 +315,7 @@ namespace TP0_SACCHETTO_Vladimir
 
                 if (!isValidSurname)
                 {
-                    Console.WriteLine("\nErreur : Veuilles entrer un nom de famille valide (sans chiffres ni espaces vides).");
+                    Console.WriteLine("\nErreur : Veuille entrer un nom de famille valide (sans chiffres ni espaces vides).");
                     Console.WriteLine();
                 }
             } while (!isValidSurname);
@@ -338,7 +333,7 @@ namespace TP0_SACCHETTO_Vladimir
 
                 if (!isValidName)
                 {
-                    Console.WriteLine("\nErreur : Veuilles entrer un prénom valide (sans chiffres ni espaces vides).");
+                    Console.WriteLine("\nErreur : Veuille entrer un prénom valide (sans chiffres ni espaces vides).");
                     Console.WriteLine();
                 }
             } while (!isValidName);
@@ -375,14 +370,14 @@ namespace TP0_SACCHETTO_Vladimir
 
             // Estimation du nombre de cheveux avec do ... while et if ... else
             Console.WriteLine("-------------------------------------------------------------------------");
-            Console.WriteLine("Maintenant nous allons estimer le nombre de cheveux que tu as sur ta tête");
+            Console.WriteLine("Maintenant, nous allons estimer le nombre de cheveux que tu as sur ta tête.");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.ReadLine();
             Estimation();
 
             // Jeu du choix
             Console.WriteLine("-------------------------------------------------");
-            Console.WriteLine("Enfin nous allons terminer avec le jeu du choix !");
+            Console.WriteLine("Enfin, nous allons terminer avec le jeu du choix !");
             Console.WriteLine("-------------------------------------------------");
             Console.ReadLine();
 
