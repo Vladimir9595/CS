@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace TP0_SACCHETTO_Vladimir
 
                 if (!isValidSurname)
                 {
-                    Console.WriteLine("Erreur : Veuillez entrer un nom de famille valide (sans chiffres ni espaces vides).");
+                    Console.WriteLine("Erreur : Veuilles entrer un nom de famille valide (sans chiffres ni espaces vides).");
                     Console.WriteLine();
                 }
             } while (!isValidSurname);
@@ -50,7 +51,7 @@ namespace TP0_SACCHETTO_Vladimir
 
                 if (!isValidName)
                 {
-                    Console.WriteLine("Erreur : Veuillez entrer un prenom valide (sans chiffres ni espaces vides).");
+                    Console.WriteLine("Erreur : Veuilles entrer un prénom valide (sans chiffres ni espaces vides).");
                     Console.WriteLine();
                 }
             } while (!isValidName);
@@ -63,57 +64,11 @@ namespace TP0_SACCHETTO_Vladimir
             Console.WriteLine(NameFormat(name, surname));
             Console.ReadLine();
 
+
             // Affichage de la taille, du poids et de l'âge
-            float height;
-            float weight;
-            float age;
-            do
-            {
-                Console.WriteLine("------------------------------");
-                Console.WriteLine("Quelle est ta taille en cm? ");
-                Console.WriteLine("------------------------------");
-                Console.WriteLine();
-                height = float.Parse(Console.ReadLine());
-                Console.WriteLine();
-                if (height <= 0)
-                {
-                    Console.WriteLine("Erreur : Veuillez entrer une taille valide (supérieure à 0).");
-                    Console.ReadLine();
-                }
-            } while (height <= 0);
-            
-            do
-            {
-                Console.WriteLine("----------------------");
-                Console.WriteLine("Quel est ton poids ?");
-                Console.WriteLine("----------------------");
-                Console.WriteLine();
-                weight = float.Parse(Console.ReadLine());
-                Console.WriteLine();
-                if (weight <= 0)
-                {
-                    Console.WriteLine("Erreur : Veuillez entrer un poids valide (supérieure à 0).");
-                    Console.ReadLine();
-                }
-            } while (weight <= 0);
-            
-            do
-            {
-                Console.WriteLine("--------------------");
-                Console.WriteLine("Quel est ton âge ? ");
-                Console.WriteLine("--------------------");
-                Console.WriteLine();
-                age = float.Parse(Console.ReadLine());
-                Console.WriteLine();
-                if (age <= 0)
-                {
-                    Console.WriteLine("Erreur : Veuillez entrer un poids valide (supérieure à 0).");
-                    Console.ReadLine();
-                }
-            } while (age <= 0);
-                        
-            Console.WriteLine("Tu mésures " + height + "cm, tu pèses " + weight + "kg et tu es âgé de " + age + " ans !");
-            Console.ReadLine();
+            int height = RetrieveHeight();
+            int weight = RetrieveWeight();
+            int age = RetrieveAge();
 
             // Affichage de la majorité
 
@@ -130,37 +85,42 @@ namespace TP0_SACCHETTO_Vladimir
             CommentToDisplay(height, weight);
             Console.ReadLine();
 
-            // Declaration de la variable estimate
-            int estimate;
-            bool isValidEstimate;
-
+             
+            // Estimation du nombre de cheveux avec do ... while et if ... else
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.WriteLine("Maintenant nous allons estimer le nombre de cheveux que tu as sur ta tête");
             Console.WriteLine("-------------------------------------------------------------------------");
             Console.ReadLine();
+            Estimation();
 
-            // Estimation du nombre de cheveux avec do ... while et if ... else
+
+            
+            
+            // Jeu du choix
+            int choice;
+            bool isValidChoice;
+
+            Console.WriteLine("------------------------------------------------------------------");
+            Console.WriteLine("Enfin nous allons terminer avec le jeu du choix !");
+            Console.WriteLine("------------------------------------------------------------------");
+            Console.ReadLine();
+
             do
             {
-                Console.WriteLine("Estime le nombre de cheveux sur ta tête (entre 100 000 et 150 000) : ");
+                Menu();
                 string input = Console.ReadLine();
 
-                isValidEstimate = int.TryParse(input, out estimate);
+                isValidChoice = int.TryParse(input, out choice);
 
-                if (isValidEstimate && (estimate >= 100000 && estimate <= 150000))
+                // isValidChoice = !string.IsNullOrWhiteSpace(choice);
+
+                if (isValidChoice == true)
                 {
-                    Console.WriteLine("Estimation valide : " + estimate);
-                    Console.ReadLine();
-                } else
-                {
-                    Console.WriteLine("Erreur : Veuillez entrer un nombre valide (entre 100 000 et 150 000).");
-                    Console.ReadLine();
+                    Console.WriteLine("Erreur : Veuillez entrer un choix valide.");
+                    Console.WriteLine();
                 }
-                
-            } while (!isValidEstimate && !(estimate >= 100000 && estimate <= 150000));
+            } while (isValidChoice != true);   
 
-            Console.WriteLine("Merci pour ton estimation. Rassure toi, tu as encore des cheveux !");
-            Console.ReadLine();
 
             // TimeOut de 5 secondes
             await TimeOut();
@@ -190,7 +150,101 @@ namespace TP0_SACCHETTO_Vladimir
 
         }
 
-        static bool ContainsNumbers(string text)
+        public static int RetrieveHeight()
+        {
+            int height;
+            bool isValidHeight;
+            do
+            {
+                Console.WriteLine("----------------------------");
+                Console.WriteLine("Quelle est ta taille en cm? ");
+                Console.WriteLine("----------------------------");
+                Console.WriteLine();
+                string input = Console.ReadLine();
+
+                isValidHeight = int.TryParse(input, out height);
+
+                if (isValidHeight && height > 0)
+                {
+                    Console.WriteLine("Ta taille est valide : " + height + "cm.");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Erreur : Entres une taille valide (j'accepte les décimaux).");
+                    Console.WriteLine();
+                }
+
+            } while (!isValidHeight && !(height >= 0));
+            
+            return height;
+        
+        }
+
+        public static int RetrieveWeight()
+        { 
+            int weight;
+            bool isValidWeight;
+        
+            do
+            { 
+                Console.WriteLine("--------------------");
+                Console.WriteLine("Quel est ton poids ?");
+                Console.WriteLine("--------------------");
+                Console.WriteLine();
+                string input = Console.ReadLine();
+
+                isValidWeight = int.TryParse(input, out weight);
+
+                if (isValidWeight && weight >= 0)
+                {
+                    Console.WriteLine("Ton poids est valide : " + weight + "kg.");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Erreur : Entres un poids valide (j'accepte les décimaux).");
+                    Console.WriteLine();
+                }
+
+            } while (!isValidWeight && !(weight >= 0));
+
+            return weight;
+        }
+        
+        public static int RetrieveAge()
+        {
+            int age;
+            bool isValidAge;
+
+            do
+            {
+                Console.WriteLine("-------------------");
+                Console.WriteLine("Quel est ton âge ? ");
+                Console.WriteLine("-------------------");
+                Console.WriteLine();
+
+                string input = Console.ReadLine();
+
+                isValidAge = int.TryParse(input, out age);
+                Console.WriteLine();
+
+                if (isValidAge && age >= 0)
+                {
+                    Console.WriteLine("Ton age est valide : " + age + "ans.");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Erreur : Entres un vrai âge.");
+                    Console.WriteLine();
+                }
+            } while (!isValidAge && !(age >= 0));
+
+            return age;
+        }
+
+        public static bool ContainsNumbers(string text)
         {
             foreach (char c in text)
             {
@@ -215,6 +269,37 @@ namespace TP0_SACCHETTO_Vladimir
         {
             float imc = CalculateIMC(height, weight);
             return "Ton IMC est : " + imc.ToString("0.0");
+        }
+
+        public static int Estimation()
+        {
+                int estimate;
+                bool isValidEstimate;
+            do
+            {
+
+                Console.WriteLine("Estime le nombre de cheveux sur ta tête (entre 100 000 et 150 000) : ");
+                string input = Console.ReadLine();
+
+                isValidEstimate = int.TryParse(input, out estimate);
+
+                if (isValidEstimate && (estimate >= 100000 && estimate <= 150000))
+                {
+                    Console.WriteLine("Estimation valide : " + estimate);
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("Erreur : Veuillez entrer un nombre valide (entre 100 000 et 150 000).");
+                    Console.WriteLine();
+                }
+
+            } while (isValidEstimate && !(estimate >= 100000 && estimate <= 150000));
+
+            Console.WriteLine("Merci pour ton estimation. Rassure toi, tu as encore des cheveux !");
+            Console.ReadLine();
+
+            return estimate;
         }
 
         public static void CommentToDisplay(float height, float weight)
@@ -259,6 +344,17 @@ namespace TP0_SACCHETTO_Vladimir
             }
         }
 
-
+        public static void Menu()
+        {
+            Console.WriteLine("\t Tu vas choisir entre ces 4 possibilités : ");
+            Console.WriteLine();
+            Console.WriteLine("1 - Tu souhaites quitter mon programme .......... ");
+            Console.WriteLine("2 - Tu souhaites recommencer le programme =) ");
+            Console.WriteLine("3 - Tu souhaites compter jusqu’à 10 ");
+            Console.WriteLine("4 - Tu souhaites téléphoner à Tata Jacqueline ");
+            Console.WriteLine();
+            Console.WriteLine("\t\n Fais ton choix : ");
+        }
     }
+        
 }
