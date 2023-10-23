@@ -43,7 +43,7 @@ namespace SACCHETTO_Vladimir_TP1
             }
             else
             {
-                throw new ArmoryException("Cette arme n'est pas liée à l'armurerie.");
+                throw new ArmoryException("This weapon is not linked to the armory.");
             }
         }
     }
