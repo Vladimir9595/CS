@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SACCHETTO_Vladimir_TP1
 {
@@ -20,12 +21,13 @@ namespace SACCHETTO_Vladimir_TP1
         public object Name { get; internal set; }
 
         // Constructor that initializes the properties for the Spaceship class
-        public Spaceship(int maxStructure, int maxShield)
+        public Spaceship(int maxStructure, int maxShield, object name)
         {
             MaxStructure = maxStructure;
             MaxShield = maxShield;
             CurrentStructure = maxStructure;
             CurrentShield = maxShield;
+            Name = name;
         }
 
         // 6. Method that adds a weapon to the Weapons property

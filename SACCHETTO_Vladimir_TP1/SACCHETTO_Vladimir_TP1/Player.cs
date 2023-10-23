@@ -11,7 +11,7 @@ namespace SACCHETTO_Vladimir_TP1
         public string FirstName { get; set; } // Player's first name.
         public string LastName { get; set; } // Player's last name.
         public string Alias { get; set; } // Player's alias.
-        public Spaceship DefaultSpaceship { get; set; }
+        public Spaceship? DefaultSpaceship { get; set; }
 
         public string Name => $"{FirstName} {LastName}"; // Name property: a string containing the player's first name followed by his last name.
 
@@ -26,7 +26,7 @@ namespace SACCHETTO_Vladimir_TP1
         // FormatName method to format the player's name.
         private static string FormatName(string name)
         {
-            return char.ToUpper(name[0]) + name.Substring(1).ToLower();
+            return char.ToUpper(name[0]) + name[1..].ToLower();
         }
 
         // ToString method to return the player's nickname followed by his first and last name in brackets.
