@@ -1,4 +1,4 @@
-﻿namespace SACCHETTO_Vladimir_TP1
+﻿namespace SACCHETTO_Vladimir_SpaceInvaders
 {
     public enum EWeaponType
     {
