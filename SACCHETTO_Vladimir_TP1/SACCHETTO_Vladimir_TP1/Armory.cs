@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SACCHETTO_Vladimir_TP1
+namespace SACCHETTO_Vladimir_SpaceInvaders
 {
     public class Armory
     {
@@ -20,9 +20,12 @@ namespace SACCHETTO_Vladimir_TP1
         // Method that adds weapons to the Weapons property
         public void Init()
         {
-            Weapons.Add(new Weapon("Blaster", 10, 20, EWeaponType.Direct));
-            Weapons.Add(new Weapon("Grenade Launcher", 15, 25, EWeaponType.Explosive));
-            Weapons.Add(new Weapon("Guided Missile", 20, 30, EWeaponType.Guided));
+            Weapons.Add(new Weapon("Laser", 2, 3, EWeaponType.Direct, 2));
+            Weapons.Add(new Weapon("Grenade Launcher", 1, 8, EWeaponType.Explosive, 1.5));
+            Weapons.Add(new Weapon("Guided Missile", 3, 3, EWeaponType.Guided, 2));
+            Weapons.Add(new Weapon("Mitrailleuse", 6, 8, EWeaponType.Direct, 1));
+            Weapons.Add(new Weapon("EMG", 1, 7, EWeaponType.Explosive, 1.5));
+            Weapons.Add(new Weapon("Missile", 4, 100, EWeaponType.Guided, 4));
         }
 
         // Method that displays the weapons in the Weapons property
@@ -31,13 +34,13 @@ namespace SACCHETTO_Vladimir_TP1
             Console.WriteLine("Armory Contents:");
             foreach (var weapon in Weapons)
             {
-                Console.WriteLine($"Name: {weapon.Name}, Type: {weapon.WeaponType}, Min Damage: {weapon.MinDamage}, Max Damage: {weapon.MaxDamage}");
+                Console.WriteLine($"Name: {weapon.Name}, Type: {weapon.WeaponType}, Min Damage: {weapon.MinDamage}, Max Damage: {weapon.MaxDamage}, Reload Time: {weapon.ReloadTime}");
             }
         }
 
         public void AddWeaponToSpaceship(Spaceship spaceship, Weapon weapon)
         {
-            if (Weapons.Contains(weapon))
+            if (Weapons.Any(w => w.Name == weapon.Name))
             {
                 spaceship.AddWeapon(weapon);
             }
