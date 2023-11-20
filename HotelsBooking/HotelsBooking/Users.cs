@@ -23,15 +23,15 @@ namespace HotelsBooking
             Console.WriteLine(user.name + " a bien été créé.");
         }
 
-        public void SearchHotel(DateTime dateArrival) {
+        public void SearchHotel(DateTime dateArrival, DateTime dateLeaving) {
             // Utilisez les informations fournies pour effectuer la recherche d'hôtels disponibles
             // TODO implement here
             Console.WriteLine("Veuillez entrer les dates de votre séjour");
-            Console.WriteLine("Date d'arrivée : ");
-            DateTime dateArrival = Convert.ToDateTime(Console.ReadLine());
-            Console.WriteLine("Date de départ : ");
-            DateTime dateLeaving = Convert.ToDateTime(Console.ReadLine());
-            Console.WriteLine("Veuillez entrer le nombre de chambres souhaitées :");
+            Console.WriteLine("Date d'arrivée : " + dateArrival);
+            Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("Date de départ : " + dateLeaving);
+            Convert.ToDateTime(Console.ReadLine());
+            Console.WriteLine("Veuillez entrer le nombre de chambres souhaitées : ");
             int numberRooms = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Veuillez entrer le nombre de personnes :");
             int numberPersons = Convert.ToInt32(Console.ReadLine());
