@@ -10,59 +10,52 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
 {
     public class SpaceInvaders
     {
-        private readonly Player player1;
-        private readonly Player player2;
-        private readonly Player player3;
+        private readonly Player player;
+        private readonly List<Spaceship> enemies;
         private readonly Armory armory;
 
-        // Constructor who calls the Init method
+
         public SpaceInvaders()
         {
-            player1 = new Player("Vladimir", "Sacchetto", "Vlad");
-            player2 = new Player("Jack", "Sparrow", "Spar");
-            player3 = new Player("Bruce", "Wayne", "Batman");
-
+            player = new Player("Vladimir", "Sacchetto", "Vlad");
+            enemies = new List<Spaceship>();
             armory = new Armory();
 
-            var spaceship1 = new Spaceship("First Vessel", 500, 300, 500, 600, 300, 600);
-            var spaceship2 = new Spaceship("Second Vessel", 400, 250, 400, 600, 250, 600);
-            var spaceship3 = new Spaceship("Third Vessel", 700, 400, 700, 600, 400, 600);
-            var spaceship4 = new Spaceship("Fourth Vessel", 500, 300, 500, 600, 300, 600);
-            var spaceship5 = new Spaceship("Fifth Vessel", 400, 250, 400, 600, 250, 600);
-            var spaceship6 = new Spaceship("Sixth Vessel", 700, 400, 700, 600, 400, 600);
+            var playerSpaceship = new Dart();
             Weapon laser = new("Laser", 2, 3, EWeaponType.Direct, 2);
-            Weapon grenadeLauncher = new("Grenade Launcher", 1, 8, EWeaponType.Explosive, 1.5);
-            Weapon guidedMissile = new("Guided Missile", 3, 3, EWeaponType.Guided, 2);
-            Weapon machineGun = new("Mitrailleuse", 6, 8, EWeaponType.Direct, 1);
-            Weapon emg = new("EMG", 1, 7, EWeaponType.Explosive, 1.5);
-            Weapon missile = new("Missile", 4, 100, EWeaponType.Guided, 4);
-            spaceship1.AddWeapon(laser);
-            spaceship2.AddWeapon(grenadeLauncher);
-            spaceship3.AddWeapon(guidedMissile);
-            spaceship4.AddWeapon(machineGun);
-            spaceship5.AddWeapon(emg);
-            spaceship6.AddWeapon(missile);
+            playerSpaceship.AddWeapon(laser);
+            player.DefaultSpaceship = playerSpaceship;
 
-            player1.DefaultSpaceship = spaceship1;
-            player2.DefaultSpaceship = spaceship2;
-            player3.DefaultSpaceship = spaceship3;
+            InitEnemies();
+
+            DisplayGameState();
 
         }
 
-        public void Play()
+        private void InitEnemies()
         {
-            Console.WriteLine("Welcome in Space Invaders !");
-            Console.WriteLine($"First player : {player1}");
-            Console.WriteLine($"Second player : {player2}");
-            Console.WriteLine($"Third player : {player3}");
-            Console.WriteLine();
-            armory.ViewArmory();
-            Console.WriteLine();
+            enemies.Add(new Dart());
+            enemies.Add(new BWings());
+            enemies.Add(new Rocinante());
+            enemies.Add(new ViperMKII());
+            enemies.Add(new F18());
+            enemies.Add(new Tardis());
+        }
 
-            Console.WriteLine("Informations about the player's ship :");
-            DisplaySpaceshipInfo(player1.DefaultSpaceship);
-            DisplaySpaceshipInfo(player2.DefaultSpaceship);
-            DisplaySpaceshipInfo(player3.DefaultSpaceship);
+        private void DisplayGameState()
+        {
+            Console.WriteLine("\nCurrent Game State:");
+
+            // Display player's spaceship information
+            Console.WriteLine("Player's Spaceship:");
+            DisplaySpaceshipInfo(player.DefaultSpaceship);
+
+            // Display enemies' information
+            Console.WriteLine("\nEnemies:");
+            foreach (var enemy in enemies)
+            {
+                DisplaySpaceshipInfo(enemy);
+            }
         }
 
         private static void DisplaySpaceshipInfo(Spaceship? spaceship)
@@ -82,6 +75,122 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
                 Console.WriteLine();
             }
         }
+
+        public void Play()
+        {
+            Console.WriteLine("Welcome in Space Invaders !");
+            Console.WriteLine($"First player : {player}");
+
+            Console.WriteLine();
+            armory.ViewArmory();
+            Console.WriteLine();
+
+            Console.WriteLine("Informations about the player's ship :");
+            DisplaySpaceshipInfo(player.DefaultSpaceship);
+
+            Console.WriteLine();
+            Console.WriteLine("Game Started!");
+
+            while (!IsGameOver())
+            {
+                PlayRound();
+            }
+
+            Console.WriteLine("Game Over!");
+
+        }
+
+        private void PlayRound()
+        {
+            // Player's turn
+            Console.WriteLine("\nPlayer's Turn:");
+            PlayPlayerTurn();
+
+            // Enemies' turns
+            Console.WriteLine("\nEnemies' Turns:");
+            foreach (var enemy in enemies)
+            {
+                PlayEnemyTurn(enemy);
+            }
+        }
+
+        private void PlayPlayerTurn()
+        {
+            Console.WriteLine("Choose an enemy to attack:");
+            DisplayEnemies();
+            int selectedEnemyIndex = GetValidEnemyIndex();
+
+            if (player.DefaultSpaceship != null)
+            {
+                player.DefaultSpaceship.ShootTarget(enemies[selectedEnemyIndex]);
+            }
+            else
+            {
+                Console.WriteLine("Player's spaceship is null. Cannot attack.");
+            }
+
+            DisplayGameState();
+        }
+
+        private int GetValidEnemyIndex()
+        {
+            int selectedEnemyIndex;
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out selectedEnemyIndex) &&
+                    selectedEnemyIndex >= 0 && selectedEnemyIndex < enemies.Count)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid enemy index.");
+                }
+            }
+            return selectedEnemyIndex;
+        }
+
+        private void PlayEnemyTurn(Spaceship enemy)
+        {
+            if (player.DefaultSpaceship != null)
+            {
+                enemy.ShootTarget(player.DefaultSpaceship);
+
+                DisplayGameState();
+            }
+            else
+            {
+                Console.WriteLine("Player's spaceship is null. Enemy cannot attack.");
+            }
+        }
+
+        private void DisplayEnemies()
+        {
+            Console.WriteLine("Enemies:");
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Console.WriteLine($"{i}. {enemies[i].Name} - Structure: {enemies[i].CurrentStructure}");
+            }
+        }
+
+        private bool IsGameOver()
+        {
+            if (player.DefaultSpaceship != null && player.DefaultSpaceship.IsDestroyed)
+            {
+                Console.WriteLine("Game over! Player's spaceship is destroyed.");
+                return true;
+            }
+
+            if (enemies.All(enemy => enemy.IsDestroyed))
+            {
+                Console.WriteLine("Congratulations! All enemies are destroyed. You win!");
+                return true;
+            }
+
+            return false;
+        }
+
+
 
         public static void Main()
         {
