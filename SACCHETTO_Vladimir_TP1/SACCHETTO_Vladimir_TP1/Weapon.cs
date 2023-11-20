@@ -31,17 +31,18 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
         // Method to simulate reloading and decrement the reload counter
         public double Reload()
         {
-            if (IsReload)
+            if (TimeBeforeReload > 0)
             {
                 TimeBeforeReload--;
             }
+
             return TimeBeforeReload;
         }
 
         // Method to simulate shooting
         public double Shoot()
         {
-            if (IsReload)
+            if (!IsReload)
             {
                 Console.WriteLine($"{Name} is reloading. Cannot shoot.");
                 return 0;
@@ -52,7 +53,7 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
             switch (WeaponType)
             {
                 case EWeaponType.Direct:
-                    // 1 chance sur 10 de rater
+                   
                     if (new Random().Next(1, 11) == 1)
                     {
                         Console.WriteLine($"{Name} missed the target!");
@@ -61,23 +62,23 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
                     damage = new Random().Next((int)MinDamage, (int)MaxDamage + 1);
                     break;
                 case EWeaponType.Explosive:
-                    // 1 chance sur 4 de rater
+                    
                     if (new Random().Next(1, 5) == 1)
                     {
                         Console.WriteLine($"{Name} missed the target!");
                         return 0;
                     }
-                    damage = new Random().Next((int)MinDamage, (int)MaxDamage + 1) * 2; // Multiplier par 2 pour le type explosif
+                    damage = new Random().Next((int)MinDamage, (int)MaxDamage + 1) * 2; 
                     break;
                 case EWeaponType.Guided:
-                    // Toujours toucher avec les dégâts minimums
+                    
                     damage = MinDamage;
                     break;
                 default:
                     throw new InvalidOperationException("Invalid weapon type.");
             }
 
-            TimeBeforeReload = ReloadTime; // Réinitialiser le compteur de rechargement
+            TimeBeforeReload = ReloadTime;
             return damage;
         }
     }
