@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SACCHETTO_Vladimir_TP1
+namespace SACCHETTO_Vladimir_SpaceInvaders
 {
     public class SpaceInvaders
     {
@@ -23,14 +23,26 @@ namespace SACCHETTO_Vladimir_TP1
             player3 = new Player("Bruce", "Wayne", "Batman");
 
             armory = new Armory();
-            armory.Init();
 
-            var spaceship1 = new Spaceship(500, 300, "First Vessel");
-            var spaceship2 = new Spaceship(400, 250, "Second Vessel");
-            var spaceship3 = new Spaceship(700, 400, "Third Vessel");
-            spaceship1.AddWeapon(new Weapon("Blaster", 50, 100, EWeaponType.Direct));
-            spaceship2.AddWeapon(new Weapon("Grenade Launcher", 15, 25, EWeaponType.Explosive));
-            spaceship3.AddWeapon(new Weapon("Guided Missile", 20, 30, EWeaponType.Guided));
+            var spaceship1 = new Spaceship("First Vessel", 500, 300, 500, 600, 300, 600);
+            var spaceship2 = new Spaceship("Second Vessel", 400, 250, 400, 600, 250, 600);
+            var spaceship3 = new Spaceship("Third Vessel", 700, 400, 700, 600, 400, 600);
+            var spaceship4 = new Spaceship("Fourth Vessel", 500, 300, 500, 600, 300, 600);
+            var spaceship5 = new Spaceship("Fifth Vessel", 400, 250, 400, 600, 250, 600);
+            var spaceship6 = new Spaceship("Sixth Vessel", 700, 400, 700, 600, 400, 600);
+            Weapon laser = new("Laser", 2, 3, EWeaponType.Direct, 2);
+            Weapon grenadeLauncher = new("Grenade Launcher", 1, 8, EWeaponType.Explosive, 1.5);
+            Weapon guidedMissile = new("Guided Missile", 3, 3, EWeaponType.Guided, 2);
+            Weapon machineGun = new("Mitrailleuse", 6, 8, EWeaponType.Direct, 1);
+            Weapon emg = new("EMG", 1, 7, EWeaponType.Explosive, 1.5);
+            Weapon missile = new("Missile", 4, 100, EWeaponType.Guided, 4);
+            spaceship1.AddWeapon(laser);
+            spaceship2.AddWeapon(grenadeLauncher);
+            spaceship3.AddWeapon(guidedMissile);
+            spaceship4.AddWeapon(machineGun);
+            spaceship5.AddWeapon(emg);
+            spaceship6.AddWeapon(missile);
+
             player1.DefaultSpaceship = spaceship1;
             player2.DefaultSpaceship = spaceship2;
             player3.DefaultSpaceship = spaceship3;
@@ -43,42 +55,31 @@ namespace SACCHETTO_Vladimir_TP1
             Console.WriteLine($"First player : {player1}");
             Console.WriteLine($"Second player : {player2}");
             Console.WriteLine($"Third player : {player3}");
+            Console.WriteLine();
             armory.ViewArmory();
+            Console.WriteLine();
 
             Console.WriteLine("Informations about the player's ship :");
-            var defaultSpaceship1 = player1.DefaultSpaceship;
-            var defaultSpaceship2 = player2.DefaultSpaceship;
-            var defaultSpaceship3 = player3.DefaultSpaceship;
+            DisplaySpaceshipInfo(player1.DefaultSpaceship);
+            DisplaySpaceshipInfo(player2.DefaultSpaceship);
+            DisplaySpaceshipInfo(player3.DefaultSpaceship);
+        }
 
-            if (defaultSpaceship1 != null && defaultSpaceship2 != null && defaultSpaceship3 != null)
+        private static void DisplaySpaceshipInfo(Spaceship? spaceship)
+        {
+            if (spaceship != null)
             {
-                Console.WriteLine($"First vessel name : {defaultSpaceship1.Name}");
-                Console.WriteLine($"Second vessel name : {defaultSpaceship2.Name}");
-                Console.WriteLine($"Third vessel name : {defaultSpaceship3.Name}");
+                Console.WriteLine($"{spaceship.Name}");
+                Console.WriteLine($"  Structure: {spaceship.CurrentStructure}");
+                Console.WriteLine($"  Shield: {spaceship.CurrentShield}");
 
-                Console.WriteLine($"Structure : {defaultSpaceship1.MaxStructure}");
-                Console.WriteLine($"Structure : {defaultSpaceship2.MaxStructure}");
-                Console.WriteLine($"Structure : {defaultSpaceship3.MaxStructure}");
+                Console.WriteLine($"  Weapons:");
+                foreach (var weapon in spaceship.Weapons)
+                {
+                    Console.WriteLine($"    {weapon.Name}");
+                }
 
-                Console.WriteLine($"Shield : {defaultSpaceship1.MaxShield}");
-                Console.WriteLine($"Shield : {defaultSpaceship2.MaxShield}");
-                Console.WriteLine($"Shield : {defaultSpaceship3.MaxShield}");
-
-                Console.WriteLine($"Weapons :");
-                foreach (var weapon in defaultSpaceship1.Weapons)
-                {
-                    Console.WriteLine($"  {weapon.Name}");
-                }
-                Console.WriteLine($"Weapons :");
-                foreach (var weapon in defaultSpaceship2.Weapons)
-                {
-                    Console.WriteLine($"  {weapon.Name}");
-                }
-                Console.WriteLine($"Weapons :");
-                foreach (var weapon in defaultSpaceship3.Weapons)
-                {
-                    Console.WriteLine($"  {weapon.Name}");
-                }
+                Console.WriteLine();
             }
         }
 
