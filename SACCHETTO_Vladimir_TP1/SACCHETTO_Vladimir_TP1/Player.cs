@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SACCHETTO_Vladimir_TP1
+namespace SACCHETTO_Vladimir_SpaceInvaders
 {
-    public class Player
+    public class Player : IPlayer
     {
         public string FirstName { get; set; } // Player's first name.
         public string LastName { get; set; } // Player's last name.
@@ -14,6 +14,19 @@ namespace SACCHETTO_Vladimir_TP1
         public Spaceship? DefaultSpaceship { get; set; }
 
         public string Name => $"{FirstName} {LastName}"; // Name property: a string containing the player's first name followed by his last name.
+
+        // Implement the IPlayer interface
+        public Spaceship BattleShip
+        {
+            get => DefaultSpaceship ?? throw new InvalidOperationException("Player has no default spaceship.");
+            set => DefaultSpaceship = value;
+        }
+
+        // Implement the IPlayer interface
+        public string PlayerName => $"{FirstName} {LastName}";
+
+        // Implement the IPlayer interface
+        public string PlayerAlias => Alias;
 
         public Player(string firstName, string lastName, string alias)
         {
