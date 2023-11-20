@@ -5,32 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SACCHETTO_Vladimir_TP1
+namespace SACCHETTO_Vladimir_SpaceInvaders
 {
-    public class Spaceship
+    public class Spaceship : ISpaceship
     {
+        public string Name { get; set; }
+        public double Structure { get; set; }
+        public double Shield { get; set; }
+        public int MaxWeapons { get; }
         public int MaxStructure { get; }
         public int MaxShield { get; }
-        public int CurrentStructure { get; private set; }
-        public int CurrentShield { get; private set; }
+        public double CurrentStructure { get; set; }
+        public double CurrentShield { get; set; }
+        public double AverageDamages { get; }
+        public bool BelongsPlayer { get; }
+
 
         public bool IsDestroyed => CurrentStructure == 0;
 
-        // 6. Add a list of weapons to the Spaceship class
+        
         public List<Weapon> Weapons { get; set; } = new List<Weapon>();
-        public object Name { get; internal set; }
 
         // Constructor that initializes the properties for the Spaceship class
-        public Spaceship(int maxStructure, int maxShield, object name)
+        public Spaceship(string name, double structure, double shield, double currentStructure, int maxStructure, double currentShield, int maxShield)
         {
+            Structure = structure;
+            Shield = shield;
             MaxStructure = maxStructure;
             MaxShield = maxShield;
-            CurrentStructure = maxStructure;
-            CurrentShield = maxShield;
+            CurrentStructure = currentStructure;
+            CurrentShield = currentShield;
             Name = name;
         }
 
-        // 6. Method that adds a weapon to the Weapons property
+        
         public void AddWeapon(Weapon weapon)
         {
             if (Weapons.Count < 3)
@@ -43,7 +51,7 @@ namespace SACCHETTO_Vladimir_TP1
             }
         }
 
-        // 6. Method that removes a weapon from the Weapons property
+        
         public void RemoveWeapon(Weapon weapon)
         {
             Weapons.Remove(weapon);
@@ -54,7 +62,14 @@ namespace SACCHETTO_Vladimir_TP1
             Weapons.Clear();
         }
 
-        // 6. Method that displays the weapons in the Weapons property
+        public void ReloadWeapons()
+        {
+            foreach (var weapon in Weapons)
+            {
+                weapon.Reload();
+            }
+        }
+        
         public void ViewWeapons()
         {
             Console.WriteLine("Weapons on Spaceship:");
@@ -64,8 +79,37 @@ namespace SACCHETTO_Vladimir_TP1
             }
         }
 
-        // 6. Method that returns the average damage of the spaceship
-        public double AverageDamages()
+        public void ViewShip()
+        {
+            Console.WriteLine($"Name: {Name}, Structure: {Structure}, Shield: {Shield}");
+        }
+
+        public void TakeDamages(double damages)
+        {
+            foreach (var weapon in Weapons)
+            {
+                damages -= weapon.MaxDamage;
+            }
+        }
+
+        public void ShootTarget(Spaceship target)
+        {
+            foreach (var weapon in Weapons)
+            {
+                weapon.Shoot();
+            }
+        }
+
+        public void RepairShield(double repair)
+        {
+            CurrentShield = (int)repair;
+            if (CurrentShield > MaxShield)
+            {
+                CurrentShield = MaxShield;
+            }
+        }
+
+        public double GetAverageDamages()
         {
             if (Weapons.Count == 0)
             {
@@ -104,7 +148,7 @@ namespace SACCHETTO_Vladimir_TP1
         }
 
         // Method that returns the damage taken by the spaceship
-        public void Repair(int repairAmount)
+        public void RepairAmount(int repairAmount)
         {
             if (repairAmount < 0)
             {
