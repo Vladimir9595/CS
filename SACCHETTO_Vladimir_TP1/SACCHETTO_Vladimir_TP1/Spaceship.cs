@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SACCHETTO_Vladimir_SpaceInvaders
 {
-    public class Spaceship : ISpaceship
+    public abstract class Spaceship : ISpaceship
     {
         public string Name { get; set; }
         public double Structure { get; set; }
@@ -17,7 +18,7 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
         public int MaxShield { get; }
         public double CurrentStructure { get; set; }
         public double CurrentShield { get; set; }
-        public double AverageDamages { get; }
+        public double AverageDamages => GetAverageDamages();
         public bool BelongsPlayer { get; }
 
 
@@ -26,7 +27,6 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
         
         public List<Weapon> Weapons { get; set; } = new List<Weapon>();
 
-        // Constructor that initializes the properties for the Spaceship class
         public Spaceship(string name, double structure, double shield, double currentStructure, int maxStructure, double currentShield, int maxShield)
         {
             Structure = structure;
@@ -75,7 +75,7 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
             Console.WriteLine("Weapons on Spaceship:");
             foreach (var weapon in Weapons)
             {
-                Console.WriteLine($"Name: {weapon.Name}, Type: {weapon.WeaponType}, Min Damage: {weapon.MinDamage}, Max Damage: {weapon.MaxDamage}");
+                Console.WriteLine($"Name: {weapon.Name}, Type: {weapon.WeaponType}, Min Damage: {weapon.MinDamage}, Max Damage: {weapon.MaxDamage}, Reload Time: {weapon.ReloadTime}");
             }
         }
 
@@ -84,30 +84,18 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
             Console.WriteLine($"Name: {Name}, Structure: {Structure}, Shield: {Shield}");
         }
 
-        public void TakeDamages(double damages)
-        {
-            foreach (var weapon in Weapons)
-            {
-                damages -= weapon.MaxDamage;
-            }
-        }
-
-        public void ShootTarget(Spaceship target)
-        {
-            foreach (var weapon in Weapons)
-            {
-                weapon.Shoot();
-            }
-        }
-
         public void RepairShield(double repair)
         {
-            CurrentShield = (int)repair;
+            CurrentShield += (int)repair;
             if (CurrentShield > MaxShield)
             {
                 CurrentShield = MaxShield;
             }
         }
+
+        public abstract void TakeDamages(double damages);
+
+        public abstract void ShootTarget(Spaceship target);
 
         public double GetAverageDamages()
         {
@@ -119,35 +107,6 @@ namespace SACCHETTO_Vladimir_SpaceInvaders
             return totalDamages / Weapons.Count;
         }
 
-        // Method that returns the damage taken by the spaceship
-        public void TakeDamage(int damage)
-        {
-            if (damage < 0)
-            {
-                throw new ArgumentException("Damage cannot be negative.");
-            }
-
-            if (CurrentShield > 0)
-            {
-                CurrentShield -= damage;
-                if (CurrentShield < 0)
-                {
-                    CurrentStructure += CurrentShield;
-                    CurrentShield = 0;
-                }
-            }
-            else
-            {
-                CurrentStructure -= damage;
-            }
-
-            if (CurrentStructure < 0)
-            {
-                CurrentStructure = 0;
-            }
-        }
-
-        // Method that returns the damage taken by the spaceship
         public void RepairAmount(int repairAmount)
         {
             if (repairAmount < 0)
