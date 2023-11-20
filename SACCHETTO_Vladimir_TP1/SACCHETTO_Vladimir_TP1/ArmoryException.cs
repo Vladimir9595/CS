@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SACCHETTO_Vladimir_TP1
+namespace SACCHETTO_Vladimir_SpaceInvaders
 {
     public class ArmoryException : Exception
     {
